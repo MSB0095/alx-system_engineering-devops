@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -l -a $PWD ; ls -l -a .. ; ls -l -a /boot
+ls -l -a $PWD .. /boot
