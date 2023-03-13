@@ -1,2 +1,2 @@
 #!/bin/bash
-grep -wn 'bin' /etc/passwd
+grep -wn 'bin' /etc/passwd | cut -d: -f1 
