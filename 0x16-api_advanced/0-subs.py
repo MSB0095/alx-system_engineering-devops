@@ -8,7 +8,6 @@ from sys import argv
 headers = {'User-Agent': 'MSB0095', 'X-Forwared-For': 'Bar'}
 
 
-
 def number_of_subscribers(subreddit):
     """return the number of subscribers
     Query Reddit API to get the number"""
