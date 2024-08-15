@@ -15,3 +15,6 @@ def number_of_subscribers(subreddit):
         return data['data']['subscribers']
     else:
         return 0
+
+if __name__ == "__main__":
+    print(number_of_subscribers(argv[1]))
