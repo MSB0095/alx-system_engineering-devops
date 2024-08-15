@@ -1,26 +1,28 @@
 #!/usr/bin/python3
 
-"""Query Reddit API to get the number
-of subscribers on a subreddit"""
+"""
+Query Reddit API to get the number of subscribers on a subreddit
+"""
 from requests import get
 from sys import argv
 
-headers = {'User-Agent': 'MSB0095', 'X-Forwared-For': 'Bar'}
+headers = {'User-Agent': 'MSB0095', 'X-Forwarded-For': 'Bar'}
 
 
 def number_of_subscribers(subreddit):
-    """return the number of subscribers
-    Query Reddit API to get the number"""
+    """
+    Return the number of subscribers for a given subreddit.
+    Query Reddit API to get the number of subscribers.
+    """
     url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
 
     response = get(url, headers=headers, allow_redirects=False)
-    data = response.json()
     try:
-        if 'error' in data.keys():
+        data = response.json()
+        if 'error' in data:
             return 0
-        else:
-            return data['data']['subscribers']
-    except Exception as e:
+        return data['data']['subscribers']
+    except Exception:
         return 0
 
 
