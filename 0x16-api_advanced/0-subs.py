@@ -12,7 +12,6 @@ def number_of_subscribers(subreddit):
     """return the number of subscribers
     Query Reddit API to get the number"""
     url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
-    headers = {'User-Agent': 'MSB0095'}
 
     response = get(url, headers=headers, allow_redirects=False)
     data = response.json()
