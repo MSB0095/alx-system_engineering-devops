@@ -2,7 +2,6 @@
 """Query Reddit API to get the number
 of subscribers on a subreddit"""
 from requests import get
-from sys import argv
 
 
 def number_of_subscribers(subreddit):
