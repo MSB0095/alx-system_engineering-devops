@@ -1,11 +1,7 @@
-# 0-strace_is_your_friend.pp
-exec { 'fix-apache-permissions':
-  command => '/bin/chown -R www-data:www-data /var/www/html',
-  onlyif  => '/usr/bin/test -d /var/www/html',
-}
-
-service { 'apache2':
-  ensure => 'running',
-  enable => true,
-  require => Exec['fix-apache-permissions'],
+#!/usr/bin/env puppet
+# fix internal server error
+exec { 'web stack deubging':
+  command  => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
+  path     => '/usr/local/bin/:/bin/',
+  provider => 'shell'
 }
