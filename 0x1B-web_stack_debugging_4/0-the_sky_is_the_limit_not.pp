@@ -1,7 +1,14 @@
-# 0-the_sky_is_the_limit_not.pp
+#!/usr/bin/env puppet
 
-exec { 'fix--for-nginx':
-  command => '/usr/sbin/nginx -s reload',
-  path    => ['/bin', '/usr/bin', '/sbin', '/usr/sbin'],
-  onlyif  => 'test -f /etc/nginx/nginx.conf',
+# patch up our nginx webserver to handle
+# a large number of requests
+exec { 'fix nginx':
+  command => 'sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/'
+}
+
+# restart Nginx service (nginx.service)
+-> exec { 'nginx-restart':
+  command => 'nginx restart',
+  path    => '/etc/init.d/'
 }
