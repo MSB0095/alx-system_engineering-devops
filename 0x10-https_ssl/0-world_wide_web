@@ -13,6 +13,7 @@ get_record_info() {
 
     # Get record type using dig
     local record_type=$(dig "$subdomain.$domain" | awk '/^;; ANSWER SECTION:/{getline; print $3}')
+    # Print output without color codes
     echo "The subdomain $subdomain is a $record_type record and points to $result"
 }
 
