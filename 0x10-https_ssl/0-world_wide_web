@@ -1,29 +1,34 @@
-#!/usr/bin/env bash
-# script to dig subdomain records for the domain specified
-# shellcheck disable=SC2086
+#!/bin/bash
 
-function get_a_records() {
-    if [[ -n "$2" ]]; then
-        # Query a specific subdomain
-        response="$(dig +short "$2.$1" | grep -m 1 '^[0-9]')"
-        if [[ -n "$response" ]]; then
-            echo "$response"
-        else
-            echo "No A record found for $2.$1"
-        fi
-    else
-        # Query default subdomains
-        subdomains=(www lb-01 web-01 web-02)
-        for sub_d in "${subdomains[@]}"; do
-            response="$(dig +short "$sub_d.$1" | grep -m 1 '^[0-9]')"
-            if [[ -n "$response" ]]; then
-                echo "$response"
-            else
-                echo "No A record found for $sub_d.$1"
-            fi
-        done
+# Function to get DNS record information
+get_record_info() {
+    local subdomain=$1
+    local domain=$2
+    local result=$(dig +short "$subdomain.$domain")
+    
+    if [ -z "$result" ]; then
+        echo "No record found for $subdomain"
+        return
     fi
+
+    # Get record type using dig
+    local record_type=$(dig "$subdomain.$domain" | awk '/^;; ANSWER SECTION:/{getline; print $3}')
+    echo "The subdomain $subdomain is a $record_type record and points to $result"
 }
 
-# Run the function with provided arguments
-get_a_records "$1" "$2"
+# Main script logic
+domain=$1
+subdomain=$2
+
+if [ -z "$domain" ]; then
+    echo "Domain is required"
+    exit 1
+fi
+
+if [ -z "$subdomain" ]; then
+    for sub in www lb-01 web-01 web-02; do
+        get_record_info "$sub" "$domain"
+    done
+else
+    get_record_info "$subdomain" "$domain"
+fi
