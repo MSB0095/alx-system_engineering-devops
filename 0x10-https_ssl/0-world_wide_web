@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# script to dig subdomain records for the domain specified
+# shellcheck disable=SC2086
 
 # Function to get DNS record information
 get_record_info() {
